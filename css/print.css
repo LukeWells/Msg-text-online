@@ -1,0 +1,30 @@
+﻿/* luke */
+@media print {
+
+    html, body, div {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .printFrame {
+       height: 400px !important;
+       margin: 0 !important;
+    }
+
+    .font-down {
+        font-size: 12px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        line-height: 1 !important;
+    }
+
+    #address {
+        font-size: 14px;
+    }
+
+    #orderSum {
+        margin: 0;
+        font-size: 14px;
+    }
+
+}
