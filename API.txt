@@ -1,0 +1,12 @@
+'apikey' => 'vaduqqatayakcjh6t9v5mnhf'
+'authorization' => 'Basic bHVrZS53ZWxsczpoM3JkSDB1c2U='
+
+$to = $_POST['phoneNumber'];
+$subject = $_POST['subject'];
+$message = $_POST['messageText'];
+
+$request->setBody('{"to":"","subject":"","body":""}');
+
+$request->to = $to;
+$request->subject = $subject;
+$request->body = $messageText;
