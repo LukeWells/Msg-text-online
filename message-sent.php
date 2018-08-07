@@ -10,11 +10,11 @@
 		ini_set('display_startup_errors', 1);
 		error_reporting(E_ALL);
 
-		$curl = curl_init();
-
 		$to = $_POST['phoneNumber'];
 		$subject = $_POST['subject'];
 		$message = $_POST['messageText'];
+
+		$curl = curl_init();
 
 		curl_setopt($curl,CURLOPT_POSTFIELDS,"{\"to\":\"".$to."\",\"subject\":\"".$subject."\",\"body\":\"".$message."\"}");
 
