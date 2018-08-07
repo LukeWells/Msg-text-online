@@ -10,36 +10,38 @@
 		ini_set('display_startup_errors', 1);
 		error_reporting(E_ALL);
 
-		$request = new HttpRequest();
-		$request->setUrl('https://api.whispir.com/messages');
-		$request->setMethod(HTTP_METH_POST);
-
-		$request->setQueryData(array(
-		  'apikey' => 'vaduqqatayakcjh6t9v5mnhf'
-		));
-
-		$request->setHeaders(array(
-		  'content-type' => 'application/vnd.whispir.message-v1+json',
-		  'accept' => 'application/vnd.whispir.message-v1+json',
-		  'authorization' => 'Basic bHVrZS53ZWxsczpoM3JkSDB1c2U='
-		));
+		$curl = curl_init();
 
 		$to = $_POST['phoneNumber'];
 		$subject = $_POST['subject'];
 		$message = $_POST['messageText'];
 
-		$request->setBody('{"to":"","subject":"","body":""}');
+		curl_setopt($curl,CURLOPT_POSTFIELDS,"{\"to\":\"".$to."\",\"subject\":\"".$subject."\",\"body\":\"".$message."\"}");
 
-		$request->to = $to;
-		$request->subject = $subject;
-		$request->body = $messageText;
+		curl_setopt_array($curl, array(
+			CURLOPT_URL => "https://api.whispir.com/messages?apikey=vaduqqatayakcjh6t9v5mnhf",
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => "",
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 30,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => "POST",
+			CURLOPT_HTTPHEADER => array(
+				"accept: application/vnd.whispir.message-v1+json",
+				"authorization: Basic bHVrZS53ZWxsczpoM3JkSDB1c2U=",
+				"content-type: application/vnd.whispir.message-v1+json"
+			),
+		));
 
-		try {
-		  $response = $request->send();
+		$response = curl_exec($curl);
+		$err = curl_error($curl);
 
-		  echo $response->getBody();
-		} catch (HttpException $ex) {
-		  echo $ex;
+		curl_close($curl);
+
+		if ($err) {
+			echo "cURL Error #:" . $err;
+		} else {
+			echo $response;
 		}
 	?>
 	<div class="container">

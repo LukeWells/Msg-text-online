@@ -19,7 +19,8 @@
 					<textarea class="form-control" rows="4" id="messageText" name="messageText"></textarea>
 				</div>
 			<br/>
-			<button type="submit" name="submit" id="submit" class="btn btn-primary">Submit</button>
+			<!--<p><i>Check that all details are correct</i></p>-->
+			<button type="submit" name="submit" id="submit" class="btn btn-primary">Send</button>
 		</form>
 	</div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
