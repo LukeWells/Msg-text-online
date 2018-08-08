@@ -6,13 +6,14 @@
 </head>
 <body>
 	<?php
+	
 		ini_set('display_errors', 1);
 		ini_set('display_startup_errors', 1);
 		error_reporting(E_ALL);
-
+	
 		$to = $_POST['phoneNumber'];
-		$subject = $_POST['subject'];
-		$message = $_POST['messageText'];
+		$subject = $_POST['messageText'];
+		$message = " - Lang's Building Supplies";
 
 		$curl = curl_init();
 
@@ -38,15 +39,18 @@
 
 		curl_close($curl);
 
+		/*
 		if ($err) {
 			echo "cURL Error #:" . $err;
 		} else {
 			echo $response;
 		}
+		*/
 	?>
 	<div class="container">
 		<h3>Mobile phone messaging service</h3>
 		<p>Message sent.</p>
+		<a href="index.php" class="btn btn-primary">Send another message</a>
 	</div>
 </body>
 <script>
