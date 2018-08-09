@@ -15,8 +15,9 @@
 		$subject = $_POST['messageText'];
 		$message = " - Lang's Building Supplies";
 
+		$apikey = echo getenv("apikey");
+
 		$curl = curl_init();
-		$apikey = getenv("apikey");
 
 		curl_setopt($curl,CURLOPT_POSTFIELDS,"{\"to\":\"".$to."\",\"subject\":\"".$subject."\",\"body\":\"".$message."\"}");
 
