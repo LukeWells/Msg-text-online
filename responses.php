@@ -13,12 +13,11 @@
 		error_reporting(E_ALL);
 	
 		$messageId = null;
-		$
 
 		$curl = curl_init();
 		curl_setopt($curl,CURLOPT_GET, "{\"to\":\"\",\"subject\":\"\",\"body\":\"\"}");
-		curl_setopt_array($curl, array(
-			CURLOPT_URL => "https://api.whispir.com/messages/messageresponses?view=detailed&filter=default&apikey=vaduqqatayakcjh6t9v5mnhf",
+		curl_setopt_array($curl, array(/*
+			CURLOPT_URL => "https://api.whispir.com/messages/messageresponses?view=detailed&filter=default&apikey=vaduqqatayakcjh6t9v5mnhf",*/
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_ENCODING => "",
 			CURLOPT_MAXREDIRS => 10,

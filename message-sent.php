@@ -15,14 +15,16 @@
 		$subject = $_POST['messageText'];
 		$message = " - Lang's Building Supplies";
 
-		$apikey = echo getenv("apikey");
+		session_start();
+
+		$apikey = $_SESSION['apikey'];
 
 		$curl = curl_init();
 
 		curl_setopt($curl,CURLOPT_POSTFIELDS,"{\"to\":\"".$to."\",\"subject\":\"".$subject."\",\"body\":\"".$message."\"}");
+		curl_setopt($curl,CURLOPT_URL, "https://api.whispir.com/messages?apikey=".$apikey);
 
 		curl_setopt_array($curl, array(
-			CURLOPT_URL => "https://api.whispir.com/messages?apikey=".$apikey,
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_ENCODING => "",
 			CURLOPT_MAXREDIRS => 10,
@@ -41,7 +43,6 @@
 
 		curl_close($curl);
 
-		
 		if ($err) {
 			echo "cURL Error #:" . $err;
 		} else {
