@@ -6,6 +6,7 @@
 </head>
 <body>
 	<?php
+		include ("api.php");
 
 		ini_set('display_errors', 1);
 		ini_set('display_startup_errors', 1);
@@ -15,14 +16,10 @@
 		$subject = $_POST['messageText'];
 		$message = " - Lang's Building Supplies";
 
-		session_start();
-
-		$apikey = $_SESSION['apikey'];
-
 		$curl = curl_init();
 
 		curl_setopt($curl,CURLOPT_POSTFIELDS,"{\"to\":\"".$to."\",\"subject\":\"".$subject."\",\"body\":\"".$message."\"}");
-		curl_setopt($curl,CURLOPT_URL, "https://api.whispir.com/messages?apikey=".$apikey);
+		curl_setopt($curl,CURLOPT_URL, "https://api.whispir.com/messages?apikey=".$api);
 
 		curl_setopt_array($curl, array(
 			CURLOPT_RETURNTRANSFER => true,
@@ -43,12 +40,13 @@
 
 		curl_close($curl);
 
+		/*
 		if ($err) {
 			echo "cURL Error #:" . $err;
 		} else {
 			echo $response;
 		}
-		
+		*/
 	?>
 	<div class="container">
 		<h3>Mobile phone messaging service</h3>
