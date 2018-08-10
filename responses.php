@@ -7,49 +7,23 @@
     <title>Lang's online texting</title>
 </head>
 <body>
-	<?php 
+	<div class="container">
+		<h3>Mobile phone messaging service</h3>
+		<h4>All responses:</h4>
+		<?php 
 		ini_set('display_errors', 1);
 		ini_set('display_startup_errors', 1);
 		error_reporting(E_ALL);
-	
-		$messageId = null;
-
-		$curl = curl_init();
-		curl_setopt($curl,CURLOPT_GET, "{\"to\":\"\",\"subject\":\"\",\"body\":\"\"}");
-		curl_setopt_array($curl, array(/*
-			CURLOPT_URL => "https://api.whispir.com/messages/messageresponses?view=detailed&filter=default&apikey=vaduqqatayakcjh6t9v5mnhf",*/
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_ENCODING => "",
-			CURLOPT_MAXREDIRS => 10,
-			CURLOPT_TIMEOUT => 30,
-			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-			CURLOPT_HTTPGET => "TRUE",
-			CURLOPT_HTTPHEADER => array(
-				"accept: application/vnd.whispir.message-v1+json",
-				"authorization: Basic bHVrZS53ZWxsczpoM3JkSDB1c2U=",
-				"content-type: application/vnd.whispir.message-v1+json"
-			),
-		));
-
-		$response = curl_exec($curl);
-		$err = curl_error($curl);
-
-		curl_close($curl);
+		
+		include ('api.php'); 
+		include("messageLoop.php");
 
 		if ($err) {
 			echo "cURL Error #:" . $err;
 		} else {
 			echo $response;
-		}
-		
+		}	
 	?>
-	<div class="container">
-		<h3>Mobile phone messaging service</h3>
-		<h4>All responses:</h4>
-		<Script>
-			var response = "<?php echo $response ?>";
-
-		</script>
 		<a href="index.php" class="btn btn-secondary">Back</a>
 	</div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

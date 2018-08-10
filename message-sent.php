@@ -6,7 +6,7 @@
 </head>
 <body>
 	<?php
-		include ("api.php");
+		include ('api.php');
 
 		ini_set('display_errors', 1);
 		ini_set('display_startup_errors', 1);
