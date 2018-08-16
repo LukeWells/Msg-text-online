@@ -15,45 +15,45 @@
 		ini_set('display_startup_errors', 1);
 		error_reporting(E_ALL);
 		
-		include ('api.php'); 
-		/*
-		include("messageLoop.php");
-		*/
+		include ('api.php'); /* calls api key */
+		include ('messageLoop.php');
+		
+		$curl = curl_init();
+		$responseArray = array();
 
-		$response = get_web_page("https://api.whispir.com/messages?apikey=".$api);
-		$resArr = array();
-		$resArr = json_decode($response);
-		echo "<pre>"; print_r($resArr); echo "</pre>";
-
-		function get_web_page($url) {
-			$options = array(
-				CURLOPT_RETURNTRANSFER => true,   // return web page
+		foreach((array)$messageArray as $value) {
+			curl_setopt($curl,CURLOPT_URL,"https://api.whispir.com/messages/".$value."/messageresponses?view=detailed&filter=default&apikey=".$api);
+			curl_setopt_array($curl, array(
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_ENCODING => "",
+				CURLOPT_MAXREDIRS => 5,
+				CURLOPT_TIMEOUT => 10,
+				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 				CURLOPT_HTTPHEADER => array(
-					"accept: application/vnd.whispir.message-v1+json",
+					"accept: application/vnd.whispir.messageresponse-v1+json",
 					"authorization: Basic bHVrZS53ZWxsczpoM3JkSDB1c2U=",
-					"content-type: application/vnd.whispir.message-v1+json"
-				), 
-				CURLOPT_FOLLOWLOCATION => true,   // follow redirects
-				CURLOPT_MAXREDIRS      => 10,     // stop after 10 redirects
-				CURLOPT_ENCODING       => "",     // handle compressed
-				CURLOPT_AUTOREFERER    => true,   // set referrer on redirect
-				CURLOPT_CONNECTTIMEOUT => 120,    // time-out on connect
-				CURLOPT_TIMEOUT        => 120,    // time-out on response
-			); 
-
-			$ch = curl_init($url);
-			curl_setopt_array($ch, $options);
-
-			$content  = curl_exec($ch);
-			$errors = curl_error($ch);
-			$response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-			curl_close($ch);
-
-			var_dump($errors);
-
-			return $content;
+				),
+			));
+			$content = curl_exec($curl);
+			$err = curl_error($curl);
+			
+			$responseArray[] = $content;
+			sleep(1);
 		}
+
+		curl_close($curl); 
+
+		/*$responseArray = json_decode($responseArray, true);*/
+
+		print_r($responseArray);
+		
+		$message = $responseArray['messageresponses'];
+		
+		foreach((array)$message as $msg) {
+			echo "Name: ".$msg['from']['name'];
+			echo "Response: ".$msg['responseMessage']['content'];
+		}
+		
 		?>
 		<a href="index.php" class="btn btn-secondary">Back</a>
 	</div>
