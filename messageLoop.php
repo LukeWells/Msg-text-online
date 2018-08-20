@@ -31,6 +31,8 @@
 			
 	$messageloop = $content['messages'];
 	$messageArray = array();
+	
+	/*print_r($content);*/
 
 	foreach((array)$messageloop as $contents) {
 		$responseCount = $contents['responseCount'];
@@ -38,7 +40,7 @@
 		if($responseCount > 0) {
 			$contents = substr($contents['link'][0]['uri'], 33, -32);
 			$messageArray[] = $contents;
-		}
+		} 
 	}
 
 	$resArr = array();

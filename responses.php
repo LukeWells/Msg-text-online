@@ -21,8 +21,8 @@
 		$curl = curl_init();
 		$responseArray = array();
 
-		foreach((array)$messageArray as $value) {
-			curl_setopt($curl,CURLOPT_URL,"https://api.whispir.com/messages/".$value."/messageresponses?view=detailed&filter=default&apikey=".$api);
+		foreach((array)$messageArray as $val) {
+			curl_setopt($curl,CURLOPT_URL,"https://api.whispir.com/messages/".$val."/messageresponses?view=detailed&filter=default&apikey=".$api);
 			curl_setopt_array($curl, array(
 				CURLOPT_RETURNTRANSFER => true,
 				CURLOPT_ENCODING => "",
@@ -37,22 +37,18 @@
 			$content = curl_exec($curl);
 			$err = curl_error($curl);
 			
+			$content = json_decode($content,true);
 			$responseArray[] = $content;
 			sleep(1);
 		}
-
 		curl_close($curl); 
-
-		/*$responseArray = json_decode($responseArray, true);*/
-
-		print_r($responseArray);
 		
-		$message = $responseArray['messageresponses'];
-		
-		foreach((array)$message as $msg) {
-			echo "Name: ".$msg['from']['name'];
-			echo "Response: ".$msg['responseMessage']['content'];
-		}
+		foreach($responseArray as $key=>$msg) {	
+			echo "<b>From:</b> ".$msg['messageresponses'][0]['from']['mobile'];
+			echo "<br/>";
+			echo $msg['messageresponses'][0]['responseMessage']['content'];
+			echo "<br/><br/>---------------------------<br/>";
+		} 
 		
 		?>
 		<a href="index.php" class="btn btn-secondary">Back</a>
