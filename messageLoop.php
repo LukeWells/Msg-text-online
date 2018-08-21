@@ -28,7 +28,9 @@
 	/*var_dump($errors);*/
 
 	$content = json_decode($content, true);
-			
+	
+	print_r($content);
+
 	$messageloop = $content['messages'];
 	$messageArray = array();
 	$responsesId = array(); //storing messages with responses here in addition, in order for this to be called when needed.

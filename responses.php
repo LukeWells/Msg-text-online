@@ -21,28 +21,41 @@
 		$curl = curl_init();
 		$responseArray = array();
 
-		foreach((array)$messageArray as $val) {
-			curl_setopt($curl,CURLOPT_URL,"https://api.whispir.com/messages/".$val."/messageresponses?view=detailed&filter=default&apikey=".$api);
-			curl_setopt_array($curl, array(
-				CURLOPT_RETURNTRANSFER => true,
-				CURLOPT_ENCODING => "",
-				CURLOPT_MAXREDIRS => 5,
-				CURLOPT_TIMEOUT => 10,
-				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-				CURLOPT_HTTPHEADER => array(
-					"accept: application/vnd.whispir.messageresponse-v1+json",
-					"authorization: Basic bHVrZS53ZWxsczpoM3JkSDB1c2U=",
-				),
-			));
-			$content = curl_exec($curl);
-			$err = curl_error($curl);
+		$cache = __DIR__."/json.cache";
+		$force_refresh = false;
+		$refresh = 60*60;
+
+		if ($force_refresh || ((time() - filectime($cache)) > ($refresh) || 0 == filesize($cache))) {
+			foreach((array)$responsesId as $val) {
+				curl_setopt($curl,CURLOPT_URL,"https://api.whispir.com/messages/".$val."/messageresponses?view=detailed&filter=default&apikey=".$api);
+				curl_setopt_array($curl, array(
+					CURLOPT_RETURNTRANSFER => true,
+					CURLOPT_ENCODING => "",
+					CURLOPT_MAXREDIRS => 5,
+					CURLOPT_TIMEOUT => 10,
+					CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+					CURLOPT_HTTPHEADER => array(
+						"accept: application/vnd.whispir.messageresponse-v1+json",
+						"authorization: Basic bHVrZS53ZWxsczpoM3JkSDB1c2U=",
+					),
+				));
+				$content = curl_exec($curl);
+				$err = curl_error($curl);
 			
-			$content = json_decode($content,true);
-			$responseArray[] = $content;
-			sleep(1);
+				$content = json_decode($content,true);
+				$responseArray[] = $content;
+				//sleep(1);
+
+				$handle = fopen($cache, 'wb') or die('no fopen');	
+				$json_cache = $content;
+				fwrite($handle, $json_cache);
+				fclose($handle);
+			}
+			curl_close($curl); 
+		} else {
+			$json_cache = file_get_contents($cache);
 		}
-		curl_close($curl); 
-		
+
 		foreach($responseArray as $key=>$msg) {	
 			echo "<b>From:</b> ".$msg['messageresponses'][0]['from']['mobile'];
 			echo "<br/>";
