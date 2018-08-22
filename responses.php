@@ -26,9 +26,7 @@
 		$refresh = 60*60;
 
 		if ($force_refresh || ((time() - filemtime($cache)) > ($refresh) || 0 == filesize($cache))) {
-			foreach((array)$responsesId as $val) {
-				curl_setopt($curl,CURLOPT_URL,"https://api.whispir.com/messages/".$val."/messageresponses?view=detailed&filter=default&apikey=".$api);
-				curl_setopt_array($curl, array(
+			curl_setopt_array($curl, array(
 					CURLOPT_RETURNTRANSFER => true,
 					CURLOPT_ENCODING => "",
 					CURLOPT_MAXREDIRS => 5,
@@ -39,15 +37,19 @@
 						"authorization: Basic bHVrZS53ZWxsczpoM3JkSDB1c2U=",
 					),
 				));
+
+			foreach((array)$responsesId as $val) {
+				curl_setopt($curl,CURLOPT_URL,"https://api.whispir.com/messages/".$val."/messageresponses?view=detailed&filter=default&apikey=".$api);
 				$content = curl_exec($curl);
-				$err = curl_error($curl);
-			
 				$content = json_decode($content,true);
 				$responseArray[] = $content;
+				$err = curl_error($curl);	
 				sleep(1);
-			}
+			}		
+
 			curl_close($curl); 
 			file_put_contents($cache, serialize($responseArray));
+
 		} else {
 			$responseArray = unserialize(file_get_contents($cache));
 		}
