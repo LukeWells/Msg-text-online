@@ -25,7 +25,7 @@
 		$force_refresh = false;
 		$refresh = 60*60;
 
-		if ($force_refresh || ((time() - filectime($cache)) > ($refresh) || 0 == filesize($cache))) {
+		if ($force_refresh || ((time() - filemtime($cache)) > ($refresh) || 0 == filesize($cache))) {
 			foreach((array)$responsesId as $val) {
 				curl_setopt($curl,CURLOPT_URL,"https://api.whispir.com/messages/".$val."/messageresponses?view=detailed&filter=default&apikey=".$api);
 				curl_setopt_array($curl, array(
@@ -44,18 +44,14 @@
 			
 				$content = json_decode($content,true);
 				$responseArray[] = $content;
-				//sleep(1);
-
-				$handle = fopen($cache, 'wb') or die('no fopen');	
-				$json_cache = $content;
-				fwrite($handle, $json_cache);
-				fclose($handle);
+				sleep(1);
 			}
 			curl_close($curl); 
+			file_put_contents($cache, serialize($responseArray));
 		} else {
-			$json_cache = file_get_contents($cache);
+			$responseArray = unserialize(file_get_contents($cache));
 		}
-
+		
 		foreach($responseArray as $key=>$msg) {	
 			echo "<b>From:</b> ".$msg['messageresponses'][0]['from']['mobile'];
 			echo "<br/>";
