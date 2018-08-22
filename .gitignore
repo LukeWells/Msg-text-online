@@ -4,3 +4,6 @@
 .txt
 api.php
 json.cache
+serverInfo.php
+web.config
+phpinfo.php

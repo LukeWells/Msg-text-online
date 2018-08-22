@@ -25,14 +25,13 @@
 
 	curl_close($curl);
 
-
 	$content = json_decode($content, true);
 	
 	$messageloop = $content['messages'];
 	$messageArray = array();
 	$responsesId = array(); //storing messages with responses here in addition, in order for this to be called when needed.
 	
-	/*print_r($content);*/
+	//print_r($content);
 
 	foreach((array)$messageloop as $contents) {
 		$responseCount = $contents['responseCount'];
@@ -47,6 +46,6 @@
 
 	$resArr = array();
 	$resArr = json_decode($response);
-	/*echo "<pre>"; print_r($resArr); echo "</pre>";*/
+	//echo "<pre>"; print_r($resArr); echo "</pre>";
 
 ?>
