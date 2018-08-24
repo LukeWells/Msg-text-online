@@ -7,3 +7,7 @@ json.cache
 serverInfo.php
 web.config
 phpinfo.php
+*.cache
+*.cache
+json.cache
+json.cache

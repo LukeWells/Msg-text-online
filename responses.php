@@ -27,17 +27,18 @@
 
 		if ($force_refresh || ((time() - filemtime($cache)) > ($refresh) || 0 == filesize($cache))) {
 			curl_setopt_array($curl, array(
-					CURLOPT_RETURNTRANSFER => true,
-					CURLOPT_ENCODING => "",
-					CURLOPT_MAXREDIRS => 5,
-					CURLOPT_TIMEOUT => 10,
-					CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-					CURLOPT_HTTPHEADER => array(
-						"accept: application/vnd.whispir.messageresponse-v1+json",
-						"authorization: Basic bHVrZS53ZWxsczpoM3JkSDB1c2U=",
-					),
-				));
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_ENCODING => "",
+				CURLOPT_MAXREDIRS => 5,
+				CURLOPT_TIMEOUT => 10,
+				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+				CURLOPT_HTTPHEADER => array(
+					"accept: application/vnd.whispir.messageresponse-v1+json",
+					"authorization: Basic bHVrZS53ZWxsczpoM3JkSDB1c2U=",
+				),
+			));
 
+			//if() cache message ID values don't already exist.
 			foreach((array)$responsesId as $val) {
 				curl_setopt($curl,CURLOPT_URL,"https://api.whispir.com/messages/".$val."/messageresponses?view=detailed&filter=default&apikey=".$api);
 				$content = curl_exec($curl);
