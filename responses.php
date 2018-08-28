@@ -22,7 +22,7 @@
 		$responseArray = array();
 
 		$cache = __DIR__."/json.cache";
-		$force_refresh = false;
+		$force_refresh = true;
 		$refresh = 60*60;
 
 		if ($force_refresh || ((time() - filemtime($cache)) > ($refresh) || 0 == filesize($cache))) {
@@ -34,7 +34,7 @@
 				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 				CURLOPT_HTTPHEADER => array(
 					"accept: application/vnd.whispir.messageresponse-v1+json",
-					"authorization: Basic bHVrZS53ZWxsczpoM3JkSDB1c2U=",
+					"authorization: Basic bHVrZS53ZWxsczpoM3JkSDB1c2U="
 				),
 			));
 
@@ -49,19 +49,30 @@
 			}		
 
 			curl_close($curl); 
-			file_put_contents($cache, serialize($responseArray));
+
+			clearstatcache();
+			if(filesize($cache) > 0) {
+				file_put_contents($cache, serialize($responseArray), FILE_APPEND | LOCK_EX);
+			} else {
+				file_put_contents($cache, serialize($responseArray));
+			}
 
 		} else {
 			$responseArray = unserialize(file_get_contents($cache));
 		}
 		
 		foreach($responseArray as $key=>$msg) {	
-			echo "<b>From:</b> ".$msg['messageresponses'][0]['from']['mobile'];
+			$indM = $msg['messageresponses'];
+			
+			echo "<b>From:</b> ".$indM[0]['from']['mobile'];
 			echo "<br/>";
-			echo $msg['messageresponses'][0]['responseMessage']['content'];
-			echo "<br/><br/>---------------------------<br/>";
+
+			foreach($indM as $ind) {
+				echo $ind['responseMessage']['content'];
+				echo "<br/>";
+			}
+			echo "<br/>---------------------------<br/>";
 		} 
-		
 		?>
 		<a href="index.php" class="btn btn-secondary">Back</a>
 	</div>

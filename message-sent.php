@@ -51,7 +51,7 @@
 	<div class="container">
 		<h3>Mobile phone messaging service</h3>
 		<p>Message sent.</p>
-		<a href="index.php" class="btn btn-primary">Send another message</a>
+		<a href="index.php" class="btn btn-secondary">Back</a>
 	</div>
 </body>
 <script>
