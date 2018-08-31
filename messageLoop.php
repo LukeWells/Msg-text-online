@@ -29,12 +29,13 @@
 	
 	$messageloop = $content['messages'];
 	$messageArray = array();
+	$sentArray = array(); // store sent messages
 	$responsesId = array(); //storing messages with responses here in addition, in order for this to be called when needed.
 	
-	//print_r($content);
-
 	foreach((array)$messageloop as $contents) {
 		$responseCount = $contents['responseCount'];
+		$sentMsg = $contents['subject'];
+		$sentArray[] = $sentMsg;
 
 		$contents = substr($contents['link'][0]['uri'], 33, -32);
 		$messageArray[] = $contents;

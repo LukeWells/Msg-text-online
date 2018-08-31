@@ -9,7 +9,7 @@
 <body>
 	<div class="container">
 		<h3>Mobile phone messaging service</h3>
-		<h4>All responses:</h4>
+		<h4>All sent:</h4>
 		<?php 
 		ini_set('display_errors', 1);
 		ini_set('display_startup_errors', 1);
@@ -21,34 +21,28 @@
 		$curl = curl_init();
 		$responseArray = array();
 
-		$cache = __DIR__."/json.cache";
+		$cache = __DIR__."/sent.cache";
 		$force_refresh = true;
 		$refresh = 60*60;
 
 		if ($force_refresh || ((time() - filemtime($cache)) > ($refresh) || 0 == filesize($cache))) {
-			curl_setopt_array($curl, array(
-				CURLOPT_RETURNTRANSFER => true,
-				CURLOPT_ENCODING => "",
-				CURLOPT_MAXREDIRS => 5,
-				CURLOPT_TIMEOUT => 10,
-				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-				CURLOPT_HTTPHEADER => array(
-					"accept: application/vnd.whispir.messageresponse-v1+json",
-					"authorization: Basic bHVrZS53ZWxsczpoM3JkSDB1c2U="
-				),
-			));
+			// update this section to grab sent messages
+			foreach($sentArray as $key=>$sent) {	
+				$indM = $msg['messageresponses'];
 
-			//if() cache message ID values don't already exist.
-			foreach((array)$responsesId as $val) {
-				curl_setopt($curl,CURLOPT_URL,"https://api.whispir.com/messages/".$val."/messageresponses?view=detailed&filter=default&apikey=".$api);
-				$content = curl_exec($curl);
-				$content = json_decode($content,true);
-				$responseArray[] = $content;
-				$err = curl_error($curl);	
-				sleep(1);
-			}		
+				//response
+				echo "<b>To:</b> ".$indM[0]['from']['mobile'];
+				echo "<br/>";
 
-			curl_close($curl); 
+				foreach($indM as $ind) {
+					echo "<b>";
+					echo $ind['responseMessage']['acknowledged'];
+					echo "</b>: ";
+					echo $ind['responseMessage']['content'];
+					echo "<br/>";
+				}
+				echo "<br/>---------------------------<br/>";
+			} 
 
 			clearstatcache();
 			if(filesize($cache) > 0) {
@@ -61,22 +55,6 @@
 			$responseArray = unserialize(file_get_contents($cache));
 		}
 		
-		foreach($responseArray as $key=>$msg) {	
-			$indM = $msg['messageresponses'];
-
-			//response
-			echo "<b>From:</b> ".$indM[0]['from']['mobile'];
-			echo "<br/>";
-
-			foreach($indM as $ind) {
-				echo "<b>";
-				echo $ind['responseMessage']['acknowledged'];
-				echo "</b>: ";
-				echo $ind['responseMessage']['content'];
-				echo "<br/>";
-			}
-			echo "<br/>---------------------------<br/>";
-		} 
 		?>
 		<a href="index.php" class="btn btn-secondary">Back</a>
 	</div>

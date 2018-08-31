@@ -21,7 +21,8 @@
 			<br/>
 			<!--<p><i>Check that all details are correct</i></p>-->
 			<button type="submit" name="submit" id="submit" class="btn btn-primary">Send</button>
-			<a href="responses.php" class="btn btn-secondary my-2">View all messages</a>
+			<a href="responses.php" class="btn btn-secondary my-2">View all responses</a>
+			<a href="sent.php" class="btn btn-secondary my-2">View all sent</a>
 		</form>
 	</div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
