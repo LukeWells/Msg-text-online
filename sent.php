@@ -25,24 +25,13 @@
 		$force_refresh = true;
 		$refresh = 60*60;
 
+		print_r($messageArray);
+
 		if ($force_refresh || ((time() - filemtime($cache)) > ($refresh) || 0 == filesize($cache))) {
-			// update this section to grab sent messages
-			foreach($sentArray as $key=>$sent) {	
-				$indM = $msg['messageresponses'];
-
-				//response
-				echo "<b>To:</b> ".$indM[0]['from']['mobile'];
-				echo "<br/>";
-
-				foreach($indM as $ind) {
-					echo "<b>";
-					echo $ind['responseMessage']['acknowledged'];
-					echo "</b>: ";
-					echo $ind['responseMessage']['content'];
-					echo "<br/>";
-				}
-				echo "<br/>---------------------------<br/>";
-			} 
+		
+			foreach((array)$messageloop as $contents) {
+				echo $val[''];
+			}		
 
 			clearstatcache();
 			if(filesize($cache) > 0) {
