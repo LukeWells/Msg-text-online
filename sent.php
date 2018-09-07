@@ -22,16 +22,10 @@
 		$responseArray = array();
 
 		$cache = __DIR__."/sent.cache";
-		$force_refresh = true;
+		$force_refresh = false;
 		$refresh = 60*60;
 
-		print_r($messageArray);
-
-		if ($force_refresh || ((time() - filemtime($cache)) > ($refresh) || 0 == filesize($cache))) {
-		
-			foreach((array)$messageloop as $contents) {
-				echo $val[''];
-			}		
+		if ($force_refresh || ((time() - filemtime($cache)) > ($refresh) || 0 == filesize($cache))) {	
 
 			clearstatcache();
 			if(filesize($cache) > 0) {
@@ -44,6 +38,19 @@
 			$responseArray = unserialize(file_get_contents($cache));
 		}
 		
+		foreach((array)$messageloop as $val) {
+				echo "<b>To: </b><br/>";
+				/*echo ($val['to']);*/
+				echo "<b>Time sent: </b>";
+				$epoch = $val['createdTime'];
+				$epoch = substr($epoch, 0, -3);
+				$date = date('r', $epoch);				
+				echo $date;
+				echo "<br/><b>Message: </b>";
+				echo $val['subject'];
+				echo "<br/>--------------------------------<br/>";
+			}	
+
 		?>
 		<a href="index.php" class="btn btn-secondary">Back</a>
 	</div>

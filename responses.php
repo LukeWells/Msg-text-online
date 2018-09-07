@@ -68,12 +68,12 @@
 			echo "<b>From:</b> ".$indM[0]['from']['mobile'];
 			echo "<br/>";
 
-			foreach($indM as $ind) {
-				echo "<b>";
+			foreach((array)$indM as $ind) {
+				echo "<b>Time sent: </b>";
 				echo $ind['responseMessage']['acknowledged'];
-				echo "</b>: ";
-				echo $ind['responseMessage']['content'];
 				echo "<br/>";
+				echo "<b>Message: </b>";
+				echo $ind['responseMessage']['content'];
 			}
 			echo "<br/>---------------------------<br/>";
 		} 

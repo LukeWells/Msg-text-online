@@ -1,7 +1,13 @@
 <?php 
+	
+	$date = date('d/m/Y');
+	$time = date('H:i');
+
+	$fromDate = "&criteriaFromDate=01/01/2018&criteriaFromTime=00:00";
+	$toDate = "&criteriaToDate=".$date."&criteriaToTime=".$time;
 
 	$options = array(
-		CURLOPT_URL => "https://api.whispir.com/messages?apikey=".$api,
+		CURLOPT_URL => "https://api.whispir.com/messages?apikey=".$api.$fromDate.$toDate,
 		CURLOPT_RETURNTRANSFER => true,   // return web page
 		CURLOPT_HTTPHEADER => array(
 			"accept: application/vnd.whispir.message-v1+json",
@@ -26,7 +32,7 @@
 	curl_close($curl);
 
 	$content = json_decode($content, true);
-	
+
 	$messageloop = $content['messages'];
 	$messageArray = array();
  	$responsesId = array(); //storing messages with responses here in addition, in order for this to be called when needed.
