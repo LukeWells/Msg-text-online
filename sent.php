@@ -53,7 +53,7 @@
 			}
 
 			curl_close($curl);
-
+/*
 			if(0 == filesize($cache)) {
 				file_put_contents($cache, serialize($tempArray));
 			} else {
@@ -63,7 +63,7 @@
 		} else {
 			$tempArray = unserialize(file_get_contents($cache));
 		}
-		
+*/		
 		foreach((array)$messageloop as $val) {
 			$mId = substr($val['link'][0]['uri'], 33, -142);
 			//echo "<b>To: </b><br/>";
