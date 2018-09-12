@@ -35,12 +35,16 @@
 
 	$messageloop = $content['messages'];
 	$messageArray = array();
+	$endPointArray = array();
  	$responsesId = array(); //storing messages with responses here in addition, in order for this to be called when needed.
 	
 	foreach((array)$messageloop as $contents) {
-		$responseCount = $contents['responseCount'];
+		//$responseCount = $contents['responseCount'];
 		
-		$contents = substr($contents['link'][0]['uri'], 33, -142);
+		$uri = $contents['link'][0]['uri'];
+		$contents = substr($uri, 33, -142);
+		
+		$endPointArray = $uri;
 		$messageArray[] = $contents;
 		
 		/* no longer required

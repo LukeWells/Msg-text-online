@@ -25,8 +25,9 @@
 		$curl = curl_init();
 		$responseArray = array();
 
+		
 		$cache = __DIR__."\json.cache";
-		$force_refresh = true;
+		$force_refresh = true; // stay true, caching for individal message IDs unavailable.
 		$refresh = 60*15;
 
 		if ($force_refresh || ((time() - filemtime($cache)) > ($refresh) || 0 == filesize($cache))) {

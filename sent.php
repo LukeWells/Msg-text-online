@@ -15,31 +15,58 @@
 		ini_set('display_startup_errors', 1);
 		error_reporting(E_ALL);
 		
-		include ('api.php'); /* calls api key */
+		include ('api.php');
 		include ('messageLoop.php');
 		
 		$curl = curl_init();
 		$responseArray = array();
 
 		$cache = __DIR__."\sent.cache";
-		$force_refresh = false;
+		$force_refresh = true;
 		$refresh = 60*15;
+		$tempArray = array();
 
 		if ($force_refresh || ((time() - filemtime($cache)) > ($refresh) || 0 == filesize($cache))) {	
+			$options = array(
+					CURLOPT_RETURNTRANSFER => true,   // return web page
+					CURLOPT_HTTPHEADER => array(
+						"accept: application/vnd.whispir.message-v1+json",
+						"authorization: Basic bHVrZS53ZWxsczpoM3JkSDB1c2U=",
+						"content-type: application/vnd.whispir.message-v1+json"
+					), 
+					CURLOPT_FOLLOWLOCATION => true,   // follow redirects
+					CURLOPT_MAXREDIRS      => 10,     // stop after 10 redirects
+					CURLOPT_ENCODING       => "",     // handle compressed
+					CURLOPT_AUTOREFERER    => true,   // set referrer on redirect
+					CURLOPT_CONNECTTIMEOUT => 120,    // time-out on connect
+					CURLOPT_TIMEOUT        => 120,    // time-out on response
+				); 
+
+			foreach((array)$messageArray as $val) {
+				curl_setopt($curl,CURLOPT_URL,$endPointArray);
+				curl_setopt_array($curl, $options);
+				$content  = curl_exec($curl);
+				$errors = curl_error($curl);
+				$response = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+				$content = json_decode($content, true);
+				$tempArray[] = $content;
+			}
+
+			curl_close($curl);
 
 			if(0 == filesize($cache)) {
-				file_put_contents($cache, serialize($responseArray));
+				file_put_contents($cache, serialize($tempArray));
 			} else {
-				file_put_contents($cache, serialize($responseArray), FILE_APPEND | LOCK_EX);
+				file_put_contents($cache, serialize($tempArray), FILE_APPEND | LOCK_EX);
 			}
 
 		} else {
-			$responseArray = unserialize(file_get_contents($cache));
+			$tempArray = unserialize(file_get_contents($cache));
 		}
 		
 		foreach((array)$messageloop as $val) {
 			$mId = substr($val['link'][0]['uri'], 33, -142);
-			echo "<b>To: </b><br/>";
+			//echo "<b>To: </b><br/>";
 			/*echo ($val['to']);*/
 			echo "<b>Time sent: </b>";
 			$epoch = $val['createdTime'];
