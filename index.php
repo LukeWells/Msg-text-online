@@ -21,7 +21,6 @@
 			<br/>
 			<!--<p><i>Check that all details are correct</i></p>-->
 			<button type="submit" name="submit" id="submit" class="btn btn-primary">Send</button>
-			<a href="responses.php" class="btn btn-secondary my-2">View all responses</a>
 			<a href="sent.php" class="btn btn-secondary my-2">View all sent</a>
 		</form>
 	</div>

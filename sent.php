@@ -21,17 +21,16 @@
 		$curl = curl_init();
 		$responseArray = array();
 
-		$cache = __DIR__."/sent.cache";
+		$cache = __DIR__."\sent.cache";
 		$force_refresh = false;
-		$refresh = 60*60;
+		$refresh = 60*15;
 
 		if ($force_refresh || ((time() - filemtime($cache)) > ($refresh) || 0 == filesize($cache))) {	
 
-			clearstatcache();
-			if(filesize($cache) > 0) {
-				file_put_contents($cache, serialize($responseArray), FILE_APPEND | LOCK_EX);
-			} else {
+			if(0 == filesize($cache)) {
 				file_put_contents($cache, serialize($responseArray));
+			} else {
+				file_put_contents($cache, serialize($responseArray), FILE_APPEND | LOCK_EX);
 			}
 
 		} else {
@@ -39,17 +38,20 @@
 		}
 		
 		foreach((array)$messageloop as $val) {
-				echo "<b>To: </b><br/>";
-				/*echo ($val['to']);*/
-				echo "<b>Time sent: </b>";
-				$epoch = $val['createdTime'];
-				$epoch = substr($epoch, 0, -3);
-				$date = date('r', $epoch);				
-				echo $date;
-				echo "<br/><b>Message: </b>";
-				echo $val['subject'];
-				echo "<br/>--------------------------------<br/>";
-			}	
+			$mId = substr($val['link'][0]['uri'], 33, -142);
+			echo "<b>To: </b><br/>";
+			/*echo ($val['to']);*/
+			echo "<b>Time sent: </b>";
+			$epoch = $val['createdTime'];
+			$epoch = substr($epoch, 0, -3);
+			$date = date('r', $epoch);				
+			echo $date;
+			echo "<br/><b>Message: </b>";
+			echo $val['subject'];
+			echo "<br/>";
+			echo "<a href='responses.php?mId=".$mId."' class='btn btn-link'>View responses</a>";
+			echo "<br/>--------------------------------<br/>";
+		}	
 
 		?>
 		<a href="index.php" class="btn btn-secondary">Back</a>
