@@ -38,19 +38,23 @@
 	$endPointArray = array();
  	$responsesId = array(); //storing messages with responses here in addition, in order for this to be called when needed.
 	
-	foreach((array)$messageloop as $contents) {
-		//$responseCount = $contents['responseCount'];
+	if(isset($messageloop)) {	
+		foreach((array)$messageloop as $contents) {
+			//$responseCount = $contents['responseCount'];
 		
-		$uri = $contents['link'][0]['uri'];
-		$contents = substr($uri, 33, -142);
+			$uri = $contents['link'][0]['uri'];
+			$contents = substr($uri, 33, -142);
 		
-		$endPointArray = $uri;
-		$messageArray[] = $contents;
+			$endPointArray = $uri;
+			$messageArray[] = $contents;
 		
-		/* no longer required
-		if($responseCount > 0) {
-			$responsesId[] = $contents;
-		} */
+			/* no longer required
+			if($responseCount > 0) {
+				$responsesId[] = $contents;
+			} */
+		} 
+	} else {
+		echo "No messages found";
 	}
 
 	$resArr = array();

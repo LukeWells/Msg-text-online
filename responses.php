@@ -60,18 +60,18 @@
 				$responseArray = array_filter($responseArray, 'is_not_null'); 
 				curl_close($curl); 
 
-				if(0 == filesize($cache)) {
+				/*if(0 == filesize($cache)) {
 					file_put_contents($cache, serialize($responseArray));
 				} else {
 					file_put_contents($cache, serialize($responseArray), FILE_APPEND | LOCK_EX);
-				}
+				}*/
 			} else {
 				echo "No responses received from this message";
 			}
 
-		} else {
+		} /*else {
 			$responseArray = unserialize(file_get_contents($cache));
-		}
+		}*/
 		
 		foreach($responseArray as $key=>$msg) {	
 			$indM = $msg['messageresponses'];

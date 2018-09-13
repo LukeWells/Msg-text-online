@@ -61,9 +61,9 @@
 			}
 
 		} else {
-			$tempArray = unserialize(file_get_contents($cache));
+			$tempArray = unserialize(file_get_contents($cache)); */
 		}
-*/		
+		
 		foreach((array)$messageloop as $val) {
 			$mId = substr($val['link'][0]['uri'], 33, -142);
 			//echo "<b>To: </b><br/>";
@@ -79,7 +79,6 @@
 			echo "<a href='responses.php?mId=".$mId."' class='btn btn-link'>View responses</a>";
 			echo "<br/>--------------------------------<br/>";
 		}	
-
 		?>
 		<a href="index.php" class="btn btn-secondary">Back</a>
 	</div>
