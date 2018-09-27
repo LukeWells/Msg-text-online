@@ -63,9 +63,9 @@
 		} else {
 			$tempArray = unserialize(file_get_contents($cache)); */
 		}
-		
+
 		foreach((array)$messageloop as $val) {
-			$mId = substr($val['link'][0]['uri'], 33, -142);
+			$mId = substr($val['link'][0]['uri'], 33, -130); //updated from 148 to 130, don't know why yet.
 			//echo "<b>To: </b><br/>";
 			/*echo ($val['to']);*/
 			echo "<b>Time sent: </b>";
