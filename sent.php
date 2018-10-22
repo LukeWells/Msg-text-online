@@ -65,7 +65,7 @@
 		}
 
 		foreach((array)$messageloop as $val) {
-			$mId = substr($val['link'][0]['uri'], 33, -130); //updated from 148 to 130, don't know why yet.
+			$mId = substr($val['link'][0]['uri'], 33, -130); // updated from 148 to 130, don't know why yet.
 			//echo "<b>To: </b><br/>";
 			/*echo ($val['to']);*/
 			echo "<b>Time sent: </b>";
