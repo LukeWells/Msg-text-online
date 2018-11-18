@@ -12,7 +12,7 @@
 		<form method="post" name="homeNav" action="message-sent.php">
 			<div class"form-group">
 				<label for="phoneNumber">Phone Number</label>
-				<input type="tel" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="0412 345 678" pattern="[0-9]{4}[0-9]{3}[0-9]{3}" style="width:140px;" required /><br>
+				<input type="tel" class="form-control" name="phoneNumber" id="phoneNumber" value="614" placeholder="614xxxxxxxx" pattern="[0-9]{3}[0-9]{4}[0-9]{4}" style="width:140px;" required /><br>
 				<!--<label for="subject">Subject</label>
 				<input type="text" class="form-control" id="subject" name="subject"></textarea>-->
 				<label for="messageText">Message</label>
